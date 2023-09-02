@@ -9,7 +9,7 @@ function RecommendedVideos() {
   const [courseItems , setCourseData] = useState([]);
 
   useEffect(() => {
-    axios.get("https://myudemy-backend-f3nx.vercel.app/course/")
+    axios.get("https://myudemy-backend.vercel.app/course/")
     .then((res)=> {
       setCourseData(res.data);
     }).catch((e)=>{console.log("error",e);})
