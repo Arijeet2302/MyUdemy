@@ -23,7 +23,7 @@ function Header() {
     useEffect(() => {
       if (shouldFetchCart) {
         axios
-          .get("http://127.0.0.1:8000/cart/")
+          .get("https://myudemy-backend.vercel.app/cart/")
           .then((res) => {
             setCartData(res.data);
           })

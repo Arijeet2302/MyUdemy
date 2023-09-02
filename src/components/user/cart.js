@@ -29,7 +29,7 @@ function Cart () {
 }, []);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/cart/")
+    axios.get("https://myudemy-backend.vercel.app/cart/")
     .then((res)=> {
       setCourseData(res.data);
     }).catch((e)=>{console.log("error while fetching",e);})
@@ -62,7 +62,7 @@ function Cart () {
     }
 
     const handleRemove=(item_no)=>{
-      axios.delete(`http://127.0.0.1:8000/cart/${item_no}/`)
+      axios.delete(`https://myudemy-backend.vercel.app/cart/${item_no}/`)
       .then((res)=>{
         alert("Cart Item has been removed");
         window.location.reload();

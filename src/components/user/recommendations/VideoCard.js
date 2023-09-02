@@ -29,7 +29,7 @@ function VideoCard(props) {
 
 
   const handleAddCart=()=>[
-    axios.post("http://127.0.0.1:8000/cart/increment_quantity/",{
+    axios.post("https://myudemy-backend.vercel.app/cart/increment_quantity/",{
       uid : User.uid,
       cust_name: User.displayName,
       course_name: props.courseTitle,
