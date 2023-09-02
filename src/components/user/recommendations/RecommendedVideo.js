@@ -9,7 +9,7 @@ function RecommendedVideos() {
   const [courseItems , setCourseData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/course/")
+    axios.get("https://myudemy-backend-f3nx.vercel.app/course/")
     .then((res)=> {
       setCourseData(res.data);
     }).catch((e)=>{console.log("error",e);})
