@@ -43,7 +43,7 @@ function Header() {
       } catch {
         console.log("error while cart counting");
       }
-    }, [cartItems]);
+    }, [cartItems,User]);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
