@@ -33,17 +33,18 @@ function Header() {
     useEffect(() => {
       let count = 0;
       try {
+        if (isLoggedIn){
         for (let index = 0; index < cartItems.length; index++) {
           const element = cartItems[index];
           if (element.cust_name === User.displayName) {
             count += 1;
           }
-        }
+        }}
         setCartItemCount(count);
       } catch {
         console.log("error while cart counting");
       }
-    }, [cartItems,User]);
+    }, [cartItems,User,isLoggedIn]);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
