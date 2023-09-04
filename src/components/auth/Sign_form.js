@@ -61,6 +61,7 @@ const Sign1 = () => {
         />
         <InputControl
           label="Password"
+          type="password"
           placeholder="Enter password"
           onChange={(event) =>
             setValues((prev) => ({ ...prev, pass: event.target.value }))
