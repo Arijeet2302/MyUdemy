@@ -36,10 +36,6 @@ function Cart () {
   },[])
 
 
-  // const setCart((data) =>{
-  //   const temp={};
-  // })
-
   const setCart =[]
   try{
     for (let index = 0; index < cartItems.length; index++) {
@@ -50,7 +46,7 @@ function Cart () {
     }}catch{
       console.log("error while categorizing");
     }
-  
+    
   const navigate = useNavigate();
   
 

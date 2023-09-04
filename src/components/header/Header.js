@@ -17,11 +17,9 @@ function Header() {
     const [User, setUser] = useState(null); 
     const[cartItems, setCartData] = useState([]);
     const [cartItemCount, setCartItemCount] = useState(0);
-    const [shouldFetchCart, setShouldFetchCart] = useState(false);
 
 
     useEffect(() => {
-      if (shouldFetchCart) {
         axios
           .get("https://myudemy-backend.vercel.app/cart/")
           .then((res) => {
@@ -30,17 +28,7 @@ function Header() {
           .catch((e) => {
             console.log("error", e);
           })
-          .finally(() => {
-            setShouldFetchCart(false); 
-          });
-      }
-    }, [shouldFetchCart, cartItems]);
-
-    useEffect(() => {
-      if (isLoggedIn) {
-        setShouldFetchCart(true);
-      }
-    }, [isLoggedIn]);
+    }, [cartItems]);
 
     useEffect(() => {
       let count = 0;
@@ -55,7 +43,7 @@ function Header() {
       } catch {
         console.log("error while cart counting");
       }
-    }, [cartItems, User]);
+    }, [cartItems]);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
