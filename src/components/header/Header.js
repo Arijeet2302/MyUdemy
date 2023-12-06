@@ -1,91 +1,64 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../components/header/Header.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { ShoppingCart , AccountCircleSharp} from "@mui/icons-material";
+import { ShoppingCart, AccountCircleSharp } from "@mui/icons-material";
 import axios from "axios";
 import mainLogo from "../images/mainLogo.png"
+import UserContext from "../../services/UserContext";
 
 function Header() {
-    const navigate = useNavigate();
-    const navigateHome = () => {
-      navigate('/');
-    }
-    const [email,password]= useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [User, setUser] = useState(null); 
-    const[cartItems, setCartData] = useState([]);
-    const [cartItemCount, setCartItemCount] = useState(0);
+  const navigate = useNavigate();
+  const { User, setUser, cart, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const [cartItemCount, setCartItemCount] = useState(0);
 
 
-    useEffect(() => {
-        axios
-          .get("https://myudemy-backend.vercel.app/cart/")
-          .then((res) => {
-            setCartData(res.data);
-          })
-          .catch((e) => {
-            console.log("error", e);
-          })
-    }, [cartItems]);
-
-    useEffect(() => {
-      let count = 0;
-      try {
-        if (isLoggedIn){
-        for (let index = 0; index < cartItems.length; index++) {
-          const element = cartItems[index];
-          if (element.cust_name === User.displayName) {
-            count += 1;
-          }
-        }}
-        setCartItemCount(count);
-      } catch {
-        console.log("error while cart counting");
+  useEffect(() => {
+    axios.get("https://myudemy-backend.vercel.app/cart/show/", {
+      params: {
+        uid: User?.uid,
       }
-    }, [cartItems,User,isLoggedIn]);
+    })
+      .then((res) => {
+        const response = res.data;
+        setCartItemCount(response.length);
+      })
+      .catch((e) => {
+        console.log("error", e);
+      })
+  }, [User, cart]);
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-          setIsLoggedIn(!!user);
-        });
-        return () => unsubscribe();
-      }, []);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, [setIsLoggedIn]);
 
-    const HandleLogIn =  async (e) =>{
-        try {
-            navigate('/login')
-            e.preventDefault();
-            await auth.signInWithEmailAndPassword(email,password);
-          } catch (error) {
-            console.error('Error during login:', error);
-          }
-        };
-    
-    const HandleLogOut = async () => {
-        try {
-            await auth.signOut();
-          } catch (error) {
-            console.error('Error during logout:', error);
-          }
-    };
+  const HandleLogOut = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(authUser => {
-        if (authUser) {
-          // User is signed in.
-          setUser(authUser);
-        } else {
-          // User is signed out.
-          setUser(null);
-        }
-      });
-      return () => unsubscribe();
-    }, []);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        // User is signed in.
+        setUser(authUser);
+      } else {
+        // User is signed out.
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [setUser]);
 
-    
-  
+
+
   return (
     <div className="headerPrimary">
       <div className="left part">
@@ -93,7 +66,7 @@ function Header() {
           <img src={mainLogo} className="logo" alt="logo"></img>
         </div>
         <div className="HomeDiv">
-          <span className="Home" onClick={navigateHome}>Home</span>
+          <span className="Home" onClick={() => navigate("/")}>Home</span>
         </div>
       </div>
       <div className="mid part">
@@ -104,7 +77,7 @@ function Header() {
           <Link to="/cart">
             <span className="number">{cartItemCount}</span>
             <div className="icon">
-              <ShoppingCart/>
+              <ShoppingCart />
             </div>
           </Link>
         </div>
@@ -112,10 +85,14 @@ function Header() {
           <Link className="teach" to='/admin'>Teach on MyUdemy</Link>
         </div>
         <div className="username">
-          <div>{User?<AccountCircleSharp/>:<div/>}</div><div>{User ? `${User.displayName}` : ''}</div>
+          {isLoggedIn ? (
+            <>
+              <h2 className="usernameicon"><AccountCircleSharp id="abc"/>{User.displayName}</h2>
+              <Link className="signup button" to='/' onClick={HandleLogOut} >Log Out</Link>
+            </>) : (
+            <button className="signup button" onClick={() => navigate("/login")} >Log In</button>
+          )}
         </div>
-        {isLoggedIn ?(<Link className="signup button" to='/' onClick={HandleLogOut} >Log Out</Link>) : 
-                (<button className="signup button"  onClick={HandleLogIn} >Log In</button>)}
       </div>
     </div>
   );

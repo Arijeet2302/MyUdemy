@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../footer/Footer';
 import Topcategories from './topcategories/Topcategories';
 import Recommendations from "./recommendations/Recommendations";
 import Feature1 from "../featureDiv/FeatureDiv1";
@@ -24,7 +23,6 @@ export const Home = () => {
     <BecomeInstructor/>
     <TrustedCompanies/>
     <VideoAdDiv/>
-    <Footer/>
     </>
   );
 };

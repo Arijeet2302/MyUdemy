@@ -1,31 +1,17 @@
-import React , {useEffect , useState} from "react";
+import React , { useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import "./videpCard.css";
 import Star from "@mui/icons-material/Star";
 import StarHalf from "@mui/icons-material/StarHalf";
 import axios from "axios";
-import { auth } from "../../../firebase";
+import UserContext from "../../../services/UserContext";
 
 
 function VideoCard(props) {
 
-  const [ isLoggedIn , setIsLoggedIn] = useState(false);
-  const [User, setUser] = useState(null);
+
   const navigate = useNavigate();
-
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (user) {
-            setUser(user); 
-        } else {
-            setUser(null);
-        }
-    });
-    return () => {
-        unsubscribe();
-    };
-}, []);
+  const {User, cart, setCart, isLoggedIn} = useContext(UserContext);
 
 
   const handleAddCart=()=>[
@@ -37,17 +23,10 @@ function VideoCard(props) {
       price: props.price
     }).then((res)=>{
       alert("Course has been added to cart");
+      setCart(!cart);
     }).catch((e)=>{
       console.error("error while adding:",e);})
   ]
-
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setIsLoggedIn(!!user);
-    });
-    return () => unsubscribe();
-  }, []);
 
   const navigateCourse=()=>[
     navigate("/course")

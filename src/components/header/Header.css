@@ -30,7 +30,7 @@
   
   .headerPrimary .part * {
     align-items: center;
-    margin: 0px 8px;
+    margin: 0px 5px;
   }
   
   .headerPrimary .mid {
@@ -88,16 +88,6 @@
     border-color: #054f5c;
   }
   
-  
-  /* .headerPrimary .businessDiv{
-    height:auto;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  } */
-  
   .businessDiv .icon{
     width: 32px;
     height: 32px;
@@ -127,3 +117,20 @@
   .headerPrimary span:hover {
     color: #0f7c90;
   }
+
+.teachDiv{
+  display: flex;
+  justify-content: center;
+}
+.username{
+  display: flex;
+}
+.usernameicon{
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;    
+  text-overflow: ellipsis; 
+}
+#abc{
+  font-size: 30px;
+}
