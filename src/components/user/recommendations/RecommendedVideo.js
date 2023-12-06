@@ -18,7 +18,7 @@ function RecommendedVideos() {
   return (
     <div className="recommendedVideos">
       {courseItems.map((item)=>(
-      <VideoCard key={item}
+      <VideoCard key={item.course_id}
         courseTitle={item.course_name}
         imgSrc={item.image}
         instructor={item.author_name}
