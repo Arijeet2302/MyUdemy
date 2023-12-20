@@ -3,14 +3,14 @@ import "../../components/header/Header.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { ShoppingCart, AccountCircleSharp } from "@mui/icons-material";
+import { ShoppingCart } from "@mui/icons-material";
 import axios from "axios";
 import mainLogo from "../images/mainLogo.png"
 import UserContext from "../../services/UserContext";
 
 function Header() {
   const navigate = useNavigate();
-  const { User, setUser, cart, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const { User, setUser, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
   const [cartItemCount, setCartItemCount] = useState(0);
 
 
@@ -27,7 +27,7 @@ function Header() {
       .catch((e) => {
         console.log("error", e);
       })
-  }, [User, cart]);
+  });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -57,7 +57,11 @@ function Header() {
     return () => unsubscribe();
   }, [setUser]);
 
-
+  const DisplayUserName = () => {
+    let name = User?.displayName;
+    let updatedName = name.toUpperCase().split(' ').map(word => word[0]).join('');
+    return updatedName;
+  }
 
   return (
     <div className="headerPrimary">
@@ -84,10 +88,17 @@ function Header() {
         <div className="teachDiv">
           <Link className="teach" to='/admin'>Teach on MyUdemy</Link>
         </div>
+        { isLoggedIn ? (
+        <div className="teachDiv">
+          <Link className="teach" to='/user/courses'>My Courses</Link>
+        </div>
+        ):(<div></div>)}
         <div className="username">
           {isLoggedIn ? (
             <>
-              <h2 className="usernameicon"><AccountCircleSharp id="abc"/>{User.displayName}</h2>
+              <div className="usernameicon">
+                <div className="displayname">{DisplayUserName()}</div>
+              </div>
               <Link className="signup button" to='/' onClick={HandleLogOut} >Log Out</Link>
             </>) : (
             <button className="signup button" onClick={() => navigate("/login")} >Log In</button>

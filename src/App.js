@@ -11,6 +11,7 @@ import PaymentPage from "./components/user/Payment";
 import AdminPage from './components/admin/Adminpage';
 import CoursePage from './components/user/CoursePage';
 import Footer from './components/footer/Footer';
+import UserCourses from './components/user/UserCourses';
 
 
 function App() {
@@ -18,13 +19,15 @@ function App() {
   const [User, setUser] = useState(null);
   const [cart, setCart] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cartAmount, setCartAmount] = useState(0);
 
   return (
     <>
       <UserContext.Provider value={{
         User, setUser,
         cart, setCart,
-        isLoggedIn, setIsLoggedIn
+        isLoggedIn, setIsLoggedIn,
+        cartAmount, setCartAmount,
       }}>
         <BrowserRouter>
           <Header />
@@ -36,6 +39,7 @@ function App() {
             <Route exact path="/payment" element={<PaymentPage />} />
             <Route exact path="/admin" element={<AdminPage />} />
             <Route exact path="/course" element={<CoursePage />} />
+            <Route path="/user/courses" element={<UserCourses />} />
           </Routes>
           <Footer />
         </BrowserRouter>

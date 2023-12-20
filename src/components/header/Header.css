@@ -126,11 +126,16 @@
   display: flex;
 }
 .usernameicon{
-  width: 200px;
-  white-space: nowrap;
-  overflow: hidden;    
-  text-overflow: ellipsis; 
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  background-color: #3c3b37; 
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
-#abc{
-  font-size: 30px;
+.displayname{
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
 }
